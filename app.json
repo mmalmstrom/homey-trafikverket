@@ -1,0 +1,148 @@
+{
+  "id": "se.mmalmstrom.trafikverket",
+  "version": "0.0.1",
+  "compatibility": ">=2.x",
+  "sdk": 2,
+  "name": {
+    "en": "Trafikverket",
+    "sv": "Trafikverket"
+  },
+  "description": {
+    "en": "Stay updated with trafikverket",
+    "sv": "Håll dig uppdaterad med trafikverket"
+  },
+  "category": [
+    "localization"
+  ],
+  "permissions": [],
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "author": {
+    "name": "Martin Malmström",
+    "email": "martin.malmstrom11@gmail.com"
+  },
+  "capabilities": {
+    "train_info": {
+      "type": "enum",
+      "title": {
+        "en": "Train info",
+        "sv": "Tåginfo"
+      },
+      "values": [
+        {
+          "id": "ontime",
+          "title": {
+            "en": "Ontime",
+            "sv": "I tid"
+          }
+        },
+        {
+          "id": "canceled",
+          "title": {
+            "en": "Canceled",
+            "sv": "Inställt"
+          }
+        },
+        {
+          "id": "preliminary",
+          "title": {
+            "en": "Preliminary time",
+            "sv": "Preliminär tid"
+          }
+        }
+      ],
+      "uiComponent": "picker",
+      "getable": true,
+      "setable": false
+    }
+  },
+  "drivers": [
+    {
+      "id": "train",
+      "name": {
+        "en": "Train",
+        "sv": "Tåg"
+      },
+      "pair": [
+        {
+          "id": "pair"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "class": "socket",
+      "capabilities": [
+        "train_info"
+      ],
+      "settings": [
+        {
+          "id": "key",
+          "type": "text",
+          "label": {
+            "en": "Trafikverket (read-only) API key"
+          }
+        }
+      ]
+    }
+  ],
+  "flow": {
+    "triggers": [
+      {
+        "id": "train_state_updated",
+        "title": {
+          "en": "New train information",
+          "sv": "Ny tåginformation"
+        }
+      }
+    ],
+    "conditions": [
+      {
+        "id": "train_state_is",
+        "title": {
+          "en": "The train is !{{is|is not}}...",
+          "sv": "Tåget är !{{är|är inte}}..."
+        },
+        "args": [
+          {
+            "name": "state",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "on_time",
+                "title": {
+                  "en": "On time",
+                  "sv": "I tid"
+                }
+              },
+              {
+                "id": "canceled",
+                "title": {
+                  "en": "Canceled",
+                  "sv": "Inställt"
+                }
+              },
+              {
+                "id": "preliminery",
+                "title": {
+                  "en": "Preliminery",
+                  "sv": "Präliminärt"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

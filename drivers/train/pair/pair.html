@@ -1,0 +1,61 @@
+<style type="text/css">
+    .form-group, .input-field {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .input-field {
+        margin-top: 10px;
+    }
+
+    .submit-button {
+        margin-top: 10px;
+    }
+</style>
+
+<div class="form-group">
+    <div class="input-field">
+        <label>Enter the train number:</label>
+        <input type="text" id="train_id" placeholder="train id" value="" />
+    </div>
+
+
+    <legend>Trafikverket API</legend>
+    <div class="input-field">
+        <label for="api_key">API key</label>
+        <input type="text" id="api_key" value=""/>
+    </div>
+
+    <p><a target="_blank"
+          href="https://api.trafikinfo.trafikverket.se/Account/Login"
+          title="Trafikverket open api">Click here to get an valid api key.
+    </a></p>
+
+
+    <button class="submit-button" id="validate">Connect</button>
+</div>
+
+<script type="text/javascript">
+    $(() => {
+        $('#validate').click(() => {
+            Homey.showLoadingOverlay();
+            var api_key = $('#api_key').val();
+            var train_id = $('#train_id').val();
+
+            var pairData = {
+                api_key,
+                train_id
+            };
+
+            Homey.emit('validate', pairData, (error, result) => {
+                if (error) {
+                    Homey.hideLoadingOverlay();
+                    Homey.alert(error);
+                } else {
+                    Homey.showView('list_devices');
+                }
+            })
+        });
+    });
+</script>
